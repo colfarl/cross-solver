@@ -34,6 +34,13 @@ public:
      
     //Getters
     char getColorAtPosition(Face face, int row, int col) const; 
+    std::array<char,3> getCol(Face f, int col, bool reversed=false) const;
+    std::array<char,3> getRow(Face f, int row, bool reversed=false) const;
+  
+    //Setter
+    void setColorAtPosition(Face face, int row, int col, char color);
+    void setCol(Face f, int col, const std::array<char,3>& vals, bool reversed=false);
+    void setRow(Face f, int row, const std::array<char,3>& vals, bool reversed=false);
 
     //Adjust Orientation
     void orient(Face new_down, Face new_front);
@@ -46,6 +53,9 @@ public:
     void rotate_x_2(); 							//Rotate the cube so that "front" becomes "back"
     void rotate_y_2(); 							//Rotate the cube so that "right" becomes "left"
     void rotate_z_2(); 							//Rotate the cube so that "Up" becomes "down"
+    void rotate_face_clockwise(Face face);
+    void rotate_face_180(Face face);
+    void rotate_face_counter_clockwise(Face face);
 };
 
 std::ostream& operator<<(std::ostream& out, const Cube& c);
