@@ -6,12 +6,13 @@
 class SolvingLogic {
 private:
     Cube& cube;
-
 public:
     
     //Constructor
-   SolvingLogic(Cube& c); 
-   bool isSolved() const;
-};
-#endif
+   SolvingLogic(Cube& c);
 
+   bool isSolved() const;
+   std::vector<int> getCrossLocations();
+};
+
+#endif
