@@ -253,6 +253,8 @@ void Cube::orient(Face new_down, Face new_front){
 	rotate_y_prime();
     } else if (new_down == orientation[Face::BACK] && new_front == orientation[Face::DOWN]){
 	rotate_x();
+    } else if (new_down == orientation[Face::DOWN] && new_front == orientation[Face::FRONT]){
+	; // do nothing current orientation
     } else {
 	std::cerr << "this orientation does not exist or was missed in implementation" << std::endl;
     }

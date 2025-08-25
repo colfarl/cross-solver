@@ -1,7 +1,10 @@
+#include <string_view>
+#include <unordered_map>
+
 #include "SolvingLogic.h"
 #include "Cube.h"
-#include <unordered_map>
 #include "CrossConstants.hpp"
+#include "CrossTable.generated.hpp"
 
 SolvingLogic::SolvingLogic(Cube& c) : cube(c) {}
 
@@ -27,10 +30,10 @@ bool SolvingLogic::isSolved() const{
  * the numbered positions stay in their same relative spot
  */
 
-std::vector<int> SolvingLogic::getCrossLocations() { 
+std::array<int, 4> SolvingLogic::getCrossLocations() { 
     int n = cross::EDGE_POSITIONS.size();   
     char cross_color = cube.getColorAtPosition(Face::DOWN, 1, 1); //center
-    std::vector<int> res(4);
+    std::array<int, 4> res;
 
     for(int i = 0; i < n; i++){
 
@@ -51,7 +54,8 @@ std::vector<int> SolvingLogic::getCrossLocations() {
 	char right_color = cube.getColorAtPosition(Face::RIGHT, 1, 1);
 	char back_color = cube.getColorAtPosition(Face::BACK, 1, 1);
 	char left_color = cube.getColorAtPosition(Face::LEFT, 1, 1);
-
+	
+	//changed to front left back right because 
 	if(other_color == front_color) res[0] = i;
 	if(other_color == right_color) res[1] = i;
 	if(other_color == back_color) res[2] = i;
@@ -60,3 +64,22 @@ std::vector<int> SolvingLogic::getCrossLocations() {
     
     return res;
 }
+
+std::size_t SolvingLogic::crossIndex_(uint8_t F, uint8_t L, uint8_t B, uint8_t R) noexcept {
+  return F + cross_table::kBase * (L + cross_table::kBase * (B + cross_table::kBase * R));
+}
+
+std::string_view SolvingLogic::lookupFLBR_(uint8_t F, uint8_t L, uint8_t B, uint8_t R) noexcept {
+  auto idx = crossIndex_(F, L, B, R);
+  int entry = cross_table::kIndex[idx];
+  if (entry < 0) return {}; // no moves needed or missing
+  const auto &e = cross_table::kEntries[static_cast<std::size_t>(entry)];
+  return std::string_view{cross_table::kMovesBlob + e.str_offset, e.str_len};
+}
+
+std::string SolvingLogic::getCrossSolutions(const std::array<int, 4>& pos) {
+    std::string_view sv = lookupFLBR_(static_cast<uint8_t>(pos[0]), static_cast<uint8_t>(pos[1]), static_cast<uint8_t>(pos[2]), static_cast<uint8_t>(pos[3]));
+    std::string str(sv);
+    return str;
+}
+
