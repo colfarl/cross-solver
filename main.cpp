@@ -109,7 +109,7 @@ void printSolutions(const std::vector<std::pair<std::string, std::string>>& sol,
     }
 }
 
-int main (int argc, char** argv){
+int main (){
 
     Cube c;
     CubeManipulator scrambler(c);

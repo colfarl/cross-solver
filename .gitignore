@@ -2,3 +2,7 @@ test.cpp
 data/
 *.out
 *.exe
+CSVLoader.py
+cross-solver
+/include
+/build
