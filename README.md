@@ -48,7 +48,7 @@ I built this to practice **CFOP cross inspection** and help with **color-neutral
 
 ```bash
 # Clone repository
-git clone https://github.com/<your-username>/cross-solver.git
+git clone https://github.com/colfarl/cross-solver.git
 cd cross-solver
 
 # Release build (optimized) -> ./cross-solver
